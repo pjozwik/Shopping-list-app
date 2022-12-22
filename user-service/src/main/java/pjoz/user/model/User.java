@@ -1,29 +1,31 @@
 package pjoz.user.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
+@Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
+    private String userName;
     private String surname;
     private String password;
-    @Email
+
     private String email;
     private String roles;
-
-    public User(String name, String surname, String password, String email, String roles) {
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
-    }
 
     public User() {
     }
@@ -74,5 +76,13 @@ public class User {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
