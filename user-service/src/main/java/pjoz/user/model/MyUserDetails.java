@@ -15,6 +15,7 @@ public class MyUserDetails implements UserDetails {
 
     private int id;
     private String name;
+    private String userName;
     private String surname;
     private String email;
     private String password;
@@ -24,6 +25,7 @@ public class MyUserDetails implements UserDetails {
         this.id = user.getId();
         this.name = user.getName();
         this.surname = user.getSurname();
+        this.userName = user.getUserName();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.authorities = Arrays.stream(user.getRoles().split(","))
@@ -33,36 +35,40 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return userName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

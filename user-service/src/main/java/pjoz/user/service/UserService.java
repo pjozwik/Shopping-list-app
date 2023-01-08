@@ -1,14 +1,12 @@
 package pjoz.user.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pjoz.user.model.MyUserDetails;
 import pjoz.user.model.User;
-import pjoz.user.model.UserRegistrationRequest;
 import pjoz.user.model.UserRepository;
 
 import java.util.Optional;
@@ -18,7 +16,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void saveUser(User user){
         User userToSave = User.builder()
@@ -26,7 +24,8 @@ public class UserService implements UserDetailsService {
                 .userName(user.getUserName())
                 .surname(user.getSurname())
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .password(bCryptPasswordEncoder.encode(user.getPassword()))
+                .roles(user.getRoles())
                 .build();
 
         userRepository.save(userToSave);
