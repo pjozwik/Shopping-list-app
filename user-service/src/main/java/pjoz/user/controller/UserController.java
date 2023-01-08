@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pjoz.user.model.User;
-import pjoz.user.model.UserRegistrationRequest;
 import pjoz.user.model.UserRepository;
 import pjoz.user.service.UserService;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -28,6 +25,11 @@ public class UserController {
     @GetMapping(value = "/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
         return ResponseEntity.of(userRepository.findById(id));
+    }
+
+    @GetMapping
+    public String  println(){
+        return "User";
     }
 
 }
