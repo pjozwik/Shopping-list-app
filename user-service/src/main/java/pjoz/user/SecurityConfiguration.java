@@ -35,9 +35,8 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/register", "/api/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/users/{id}").hasAnyRole("USER");
- //               .anyRequest().authenticated();
+                .antMatchers(HttpMethod.POST, "/api/register", "/api/authenticate").permitAll();
+                //.antMatchers(HttpMethod.GET, "/api/users/{id}").hasAnyRole("USER");
 
         return http.build();
     }

@@ -8,7 +8,7 @@ import pjoz.user.model.UserRepository;
 import pjoz.user.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -22,7 +22,7 @@ public class UserController {
         return ResponseEntity.ok("User has been successfully added");
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
         return ResponseEntity.of(userRepository.findById(id));
     }
