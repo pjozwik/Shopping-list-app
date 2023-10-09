@@ -17,7 +17,7 @@ public class AuthenticationService {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     public String authenticate(AuthenticationRequest request){
-        final var authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUserName(),
                         request.getPassword()
