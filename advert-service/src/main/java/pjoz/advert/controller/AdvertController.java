@@ -5,29 +5,37 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pjoz.advert.dto.UserDto;
+import pjoz.advert.feign.UserClient;
 import pjoz.advert.model.Advert;
 import pjoz.advert.model.AdvertRepository;
 import pjoz.advert.service.AdvertService;
 
 import javax.ws.rs.Path;
+import java.util.Optional;
 
 
-@RestController("/api/adverts")
+@RestController
+@RequestMapping("/api/adverts")
 @AllArgsConstructor
 public class AdvertController {
 
     private final AdvertRepository advertRepository;
     private final AdvertService advertService;
+    private final UserClient userClient;
 
     @GetMapping("/{id}")
     ResponseEntity<Advert> getAdvertById(@PathVariable int id) {
         return ResponseEntity.of(advertRepository.findById(id));
     }
 
-    @GetMapping("/users/{id}")
-    ResponseEntity<Advert> getAdvertByUserId(@PathVariable int id) {
-        //TODO: Fetch data from user service
-        return ResponseEntity.of(advertRepository.findById(id));
+    @GetMapping("/users")
+    ResponseEntity<?> getAdvertsByUserId() {
+        Optional<UserDto> userDto = userClient.getLoggedInUserDetails();
+        if(userDto.isPresent()){
+            return ResponseEntity.of(advertRepository.findAllByUserId(userDto.get().getId()));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
     @PostMapping
