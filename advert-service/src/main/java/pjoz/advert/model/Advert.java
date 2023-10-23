@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
 public class Advert {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
