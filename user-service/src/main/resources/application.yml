@@ -1,22 +1,5 @@
 spring:
   application:
     name: user-service
-  datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=user_db;integratedSecurity=true;TrustServerCertificate=True
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      dialect: org.hibernate.dialect.SQLServer2012Dialect
-      format_sql: true
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka
-server:
-  port: 8081
+  config:
+    import: optional:configserver:http://localhost:8888
