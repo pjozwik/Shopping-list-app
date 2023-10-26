@@ -1,0 +1,20 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8222
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: adverts
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/adverts/**
+        - id: users
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/users/**

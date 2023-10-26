@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @FeignClient("USER-SERVICE")
 public interface UserClient {
-    @GetMapping(value = "/api/user")
+    @GetMapping(value = "/api/users/loggedUser")
     public Optional<UserDto> getLoggedInUserDetails();
 }

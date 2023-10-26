@@ -12,6 +12,7 @@
         <module>user-service</module>
         <module>eureka-server</module>
         <module>config-server</module>
+        <module>gateway</module>
     </modules>
 
     <name>advert-micro</name>
