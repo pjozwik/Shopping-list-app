@@ -9,11 +9,17 @@ on:
     paths:
       - 'advert-service/**'
       - 'user-service/**'
+      - 'config-server/**'
+      - 'eureka-server/**'
+      - 'gateway/**'
   pull_request:
     branches: [ master ]
     paths:
       - 'advert-service/**'
       - 'user-service/**'
+      - 'config-server/**'
+      - 'eureka-server/**'
+      - 'gateway/**'
 
 jobs:
   build:
