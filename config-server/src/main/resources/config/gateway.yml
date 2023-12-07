@@ -1,20 +1,43 @@
 eureka:
+  instance:
+    hostname: localhost
   client:
-    register-with-eureka: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka
 server:
   port: 8222
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - DELETE
+              - POST
+              - PUT
       discovery:
         locator:
           enabled: true
       routes:
         - id: adverts
-          uri: http://localhost:8080
+          uri: lb://advert-service
           predicates:
             - Path=/api/adverts/**
+          filters:
+            - AuthenticationFilter
         - id: users
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/users/**
+          filters:
+            - AuthenticationFilter
+        - id: authenticate
+          uri: lb://user-service
+          predicates:
+            - Path=/api/authenticate/**
+          filters:
+            - AuthenticationFilter

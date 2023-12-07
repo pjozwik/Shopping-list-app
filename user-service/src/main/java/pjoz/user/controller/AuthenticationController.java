@@ -2,11 +2,10 @@ package pjoz.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pjoz.user.model.AuthenticationRequest;
+import pjoz.user.model.AuthenticationResponse;
 import pjoz.user.service.AuthenticationService;
 
 @RestController
@@ -16,7 +15,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         authenticationService.authenticate(request);
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
