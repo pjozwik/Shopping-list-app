@@ -3,6 +3,7 @@ package pjoz.advert.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,6 +22,7 @@ public class Advert {
     private int price;
     private LocalDateTime creationDate;
     private String title;
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
     private String contactDetails;
 }
