@@ -12,6 +12,7 @@ import pjoz.advert.model.AdvertRepository;
 import pjoz.advert.service.AdvertService;
 
 import javax.ws.rs.Path;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,6 +28,15 @@ public class AdvertController {
     @GetMapping("/{id}")
     ResponseEntity<Advert> getAdvertById(@PathVariable int id) {
         return ResponseEntity.of(advertRepository.findById(id));
+    }
+
+    @GetMapping
+    ResponseEntity<List<Advert>> getAdverts() {
+        List<Advert> adverts = advertRepository.findAll();
+        if(adverts.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(adverts);
     }
 
     @GetMapping("/users")
