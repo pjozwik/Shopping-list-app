@@ -1,0 +1,123 @@
+version: '3.8'
+services:
+  config-server:
+    image: config-server:latest
+    container_name: config-server
+    hostname: config-server
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8888:8888"
+
+  eureka-server:
+    image: eureka-server:latest
+    container_name: eureka-server
+    hostname: eureka-server
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    restart: on-failure
+    environment:
+      - CONFIG_SERVER=config-server
+    depends_on:
+      - config-server
+    ports:
+      - "8761:8761"
+
+  gateway:
+    image: gateway
+    container_name: gateway
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER=eureka-server
+      - CONFIG_SERVER=config-server
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - config-server
+    ports:
+      - 8222:8222
+
+  db:
+    image: 'mcr.microsoft.com/mssql/server:2022-latest'
+    container_name: db
+    restart: on-failure
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Essa_1998gdgre!
+    ports:
+      - 1433:1433
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+  create-database:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: create-database
+    restart: on-failure
+    depends_on:
+      - db
+    volumes:
+      - ./database/setup_db.sql:/setup_db.sql
+    command: /bin/bash -c "sleep 15s && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P Essa_1998gdgre! -d master -i /setup_db.sql"
+
+  advert-service:
+    image: advert-service
+    container_name: advert-service
+    build:
+      context: ./advert-service
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER=eureka-server
+      - CONFIG_SERVER=config-server
+      - MSSQL_DB=db
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - config-server
+      - gateway
+      - db
+      - create-database
+    ports:
+      - 8080:8080
+
+  user-service:
+    image: user-service
+    container_name: user-service
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER=eureka-server
+      - CONFIG_SERVER=config-server
+      - MSSQL_DB=db
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: on-failure
+    depends_on:
+      - eureka-server
+      - config-server
+      - gateway
+      - db
+      - create-database
+    ports:
+      - 8081:8081
+#  front-end:
+#    image: front-end
+#    container_name: front-end
+#    build:
+#      context: ./front-end
+#      dockerfile: Dockerfile
+#    restart: on-failure
+#    depends_on:
+#      - eureka-server
+#      - zuul-server
+#      - advert-service
+#      - db
+#    ports:
+#      - 9091:80
+#    links:
+#      - zuul-server

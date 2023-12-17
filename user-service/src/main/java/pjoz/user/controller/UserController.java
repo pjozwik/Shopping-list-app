@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping(value = "/loggedUser")
     public Optional<UserDto> getLoggedInUserDetails(){
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        return userService.getUserByUserName("essa");
+        return userService.getUserByUserName(auth.getName());
     }
 
 }

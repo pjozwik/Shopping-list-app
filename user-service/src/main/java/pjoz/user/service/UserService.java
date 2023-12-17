@@ -50,6 +50,7 @@ public class UserService implements UserDetailsService {
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUserName())
+                .email(user.getEmail())
                 .roles(user.getRoles().split(","))
                 .build();
     }

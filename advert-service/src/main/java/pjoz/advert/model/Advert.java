@@ -19,6 +19,7 @@ public class Advert {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private int userId;
+    private String userName;
     private int price;
     private LocalDateTime creationDate;
     private String title;
