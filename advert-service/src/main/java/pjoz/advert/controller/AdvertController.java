@@ -30,7 +30,7 @@ public class AdvertController {
         return ResponseEntity.of(advertRepository.findById(id));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     ResponseEntity<List<Advert>> getAdverts() {
         List<Advert> adverts = advertRepository.findAll();
         if(adverts.isEmpty()){

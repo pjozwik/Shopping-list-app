@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pjoz.advert.model.Advert;
 import pjoz.advert.model.AdvertRepository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -16,10 +17,11 @@ public class AdvertService {
         Advert advertToSave = Advert.builder()
                 .price(advert.getPrice())
                 .title(advert.getTitle())
-                .creationDate(advert.getCreationDate())
+                .creationDate(LocalDateTime.now())
                 .description(advert.getDescription())
                 .contactDetails(advert.getContactDetails())
-                .userId(1)
+                .userId(advert.getUserId())
+                .userName(advert.getUserName())
                 .build();
 
         advertRepository.save(advertToSave);

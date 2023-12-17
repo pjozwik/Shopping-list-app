@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://${MSSQL_DB:localhost}:1433;databaseName=advert_db;encrypt=true;TrustServerCertificate=True
+    username: sa
+    password: Essa_1998gdgre!
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver

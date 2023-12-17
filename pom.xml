@@ -2,10 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.7</version>
+        <relativePath/>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>pjoz</groupId>
     <artifactId>advert-micro</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+    <name>advert-micro</name>
+    <description>advert-micro</description>
+    <packaging>pom</packaging>
 
     <modules>
         <module>advert-service</module>
@@ -14,10 +26,6 @@
         <module>config-server</module>
         <module>gateway</module>
     </modules>
-
-    <name>advert-micro</name>
-    <description>advert-micro</description>
-    <packaging>pom</packaging>
 
     <properties>
         <java.version>17</java.version>
@@ -64,7 +72,7 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.springframework.boot</groupId>
+                    <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring.boot.maven.plugin.version}</version>
                 </plugin>
