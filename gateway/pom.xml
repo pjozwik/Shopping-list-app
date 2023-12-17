@@ -68,6 +68,7 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
+                    <mainClass>pjoz.GatewayApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
