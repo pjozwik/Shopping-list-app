@@ -35,6 +35,7 @@ services:
     environment:
       - EUREKA_SERVER=eureka-server
       - CONFIG_SERVER=config-server
+      - FRONT_ADDRESS=frontend
     restart: on-failure
     depends_on:
       - eureka-server
@@ -51,8 +52,6 @@ services:
       SA_PASSWORD: Essa_1998gdgre!
     ports:
       - 1433:1433
-    volumes:
-      - ./database:/docker-entrypoint-initdb.d
 
   create-database:
     image: mcr.microsoft.com/mssql-tools
@@ -105,19 +104,16 @@ services:
       - create-database
     ports:
       - 8081:8081
-#  front-end:
-#    image: front-end
-#    container_name: front-end
-#    build:
-#      context: ./front-end
-#      dockerfile: Dockerfile
-#    restart: on-failure
-#    depends_on:
-#      - eureka-server
-#      - zuul-server
-#      - advert-service
-#      - db
-#    ports:
-#      - 9091:80
-#    links:
-#      - zuul-server
+
+  frontend:
+    image: frontend:latest
+    container_name: frontend
+    build:
+      context: ./frontend/advert-micro-app
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+

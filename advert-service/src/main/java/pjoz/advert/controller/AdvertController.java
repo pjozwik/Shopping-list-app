@@ -40,12 +40,17 @@ public class AdvertController {
     }
 
     @GetMapping("/users")
-    ResponseEntity<?> getAdvertsByUserId() {
+    ResponseEntity<?> getAdvertsForLoggedInUser() {
         Optional<UserDto> userDto = userClient.getLoggedInUserDetails();
         if(userDto.isPresent()){
             return ResponseEntity.of(advertRepository.findAllByUserId(userDto.get().getId()));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+
+    @GetMapping("/users/{id}")
+    ResponseEntity<?> getAdvertsByUserId(@PathVariable Integer id) {
+        return ResponseEntity.of(advertRepository.findAllByUserId(id));
     }
 
     @PostMapping
@@ -66,5 +71,15 @@ public class AdvertController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Advert not found.");
         }
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "user/{id}")
+    public ResponseEntity<?> deleteAdvertsByUserId(@PathVariable int id) {
+        Optional<List<Advert>> adverts = advertRepository.findAllByUserId(id);
+        if(adverts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adverts not found.");
+        }
+        adverts.get().stream().forEach(advert -> advertService.deleteAdvert(advert.getId()));
+        return new ResponseEntity<>("Adverts deleted for a user: " + id, HttpStatus.OK);
     }
 }
