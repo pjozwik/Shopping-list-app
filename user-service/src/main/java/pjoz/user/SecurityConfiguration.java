@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/register", "/api/authenticate").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/loggedUser").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();

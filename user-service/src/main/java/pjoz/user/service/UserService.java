@@ -41,9 +41,9 @@ public class UserService implements UserDetailsService {
         return new MyUserDetails(user.get());
     }
 
-    public Optional<UserDto> getUserByUserName(String name) {
+    public Optional<User> getUserByUserName(String name) {
         Optional<User> user = userRepository.findByUserName(name);
-        return user.map(this::mapUserToDTO);
+        return user;
     }
 
     public UserDto mapUserToDTO(User user) {
@@ -53,5 +53,28 @@ public class UserService implements UserDetailsService {
                 .email(user.getEmail())
                 .roles(user.getRoles().split(","))
                 .build();
+    }
+
+    public boolean deleteUser(int id) {
+        Optional<User> advertOptional = userRepository.findById(id);
+        if (advertOptional.isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public Optional<Integer> updateUser(User user, Integer id) {
+        Optional<User> userToUpdate = userRepository.findById(id);
+        if(userToUpdate.isPresent()){
+            User updateUser = userToUpdate.get();
+            updateUser.setUserName(user.getUserName());
+            updateUser.setEmail(user.getEmail());
+            updateUser.setName(user.getName());
+            updateUser.setSurname(user.getSurname());
+            updateUser.setRoles(user.getRoles());
+            return Optional.of(userRepository.saveAndFlush(updateUser).getId());
+        }
+        return Optional.empty();
     }
 }
