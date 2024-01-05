@@ -46,18 +46,9 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public UserDto mapUserToDTO(User user) {
-        return UserDto.builder()
-                .id(user.getId())
-                .username(user.getUserName())
-                .email(user.getEmail())
-                .roles(user.getRoles().split(","))
-                .build();
-    }
-
     public boolean deleteUser(int id) {
-        Optional<User> advertOptional = userRepository.findById(id);
-        if (advertOptional.isPresent()) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
             userRepository.deleteById(id);
             return true;
         }

@@ -8,11 +8,10 @@ import pjoz.advert.model.AdvertRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Service
 @AllArgsConstructor
+@Service
 public class AdvertService {
     private final AdvertRepository advertRepository;
-
     public void saveAdvert(Advert advert) {
         Advert advertToSave = Advert.builder()
                 .price(advert.getPrice())
@@ -26,7 +25,6 @@ public class AdvertService {
 
         advertRepository.save(advertToSave);
     }
-
     public Optional<Integer> updateAdvert(Advert advert, int advertId) {
         Optional<Advert> advertOptional = advertRepository.findById(advertId);
         if (advertOptional.isPresent()) {
@@ -39,7 +37,6 @@ public class AdvertService {
         }
         return Optional.empty();
     }
-
     public boolean deleteAdvert(int id) {
         Optional<Advert> advertOptional = advertRepository.findById(id);
         if (advertOptional.isPresent()) {

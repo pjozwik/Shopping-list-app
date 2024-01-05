@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import pjoz.user.dto.UserDto;
 import pjoz.user.model.User;
 import pjoz.user.model.UserRepository;
 import pjoz.user.service.UserService;
@@ -20,13 +19,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-
-    @PostMapping(value = "/register")
-    public ResponseEntity<String> crateNewUser(@RequestBody User user){
-        //TODO check if user already exists
-        userService.saveUser(user);
-        return ResponseEntity.ok("User has been successfully added");
-    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
@@ -46,7 +38,6 @@ public class UserController {
         }
         return ResponseEntity.ok(users);
     }
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
         boolean isRemoved = userService.deleteUser(id);
@@ -55,9 +46,13 @@ public class UserController {
         }
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
-
     @PutMapping("/{id}")
     ResponseEntity<Integer> updateUser(@RequestBody User user, @PathVariable Integer id) {
         return ResponseEntity.of(userService.updateUser(user, id));
+    }
+    @PostMapping(value = "/register")
+    public ResponseEntity<String> crateNewUser(@RequestBody User user){
+        userService.saveUser(user);
+        return ResponseEntity.ok("User has been successfully added");
     }
 }

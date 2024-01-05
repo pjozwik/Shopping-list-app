@@ -1,6 +1,5 @@
 package pjoz.advert.controller;
 
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import pjoz.advert.model.Advert;
 import pjoz.advert.model.AdvertRepository;
 import pjoz.advert.service.AdvertService;
 
-import javax.ws.rs.Path;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +62,7 @@ public class AdvertController {
     ResponseEntity<Integer> updateAdvert(@RequestBody Advert advert, @PathVariable Integer id) {
         return ResponseEntity.of(advertService.updateAdvert(advert, id));
     }
-
+    @Transactional
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteAdvert(@PathVariable int id) {
         boolean isRemoved = advertService.deleteAdvert(id);
@@ -73,13 +72,13 @@ public class AdvertController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "user/{id}")
-    public ResponseEntity<?> deleteAdvertsByUserId(@PathVariable int id) {
+    @DeleteMapping(value = "/user/{id}")
+    public ResponseEntity<String> deleteAdvertsByUserId(@PathVariable int id) {
         Optional<List<Advert>> adverts = advertRepository.findAllByUserId(id);
         if(adverts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adverts not found.");
         }
-        adverts.get().stream().forEach(advert -> advertService.deleteAdvert(advert.getId()));
+        adverts.get().forEach(advert -> advertService.deleteAdvert(advert.getId()));
         return new ResponseEntity<>("Adverts deleted for a user: " + id, HttpStatus.OK);
     }
 }
