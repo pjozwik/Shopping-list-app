@@ -49,7 +49,7 @@ services:
     restart: on-failure
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: Essa_1998gdgre!
+      SA_PASSWORD: Password123!
     ports:
       - 1433:1433
 
@@ -61,7 +61,7 @@ services:
       - db
     volumes:
       - ./database/setup_db.sql:/setup_db.sql
-    command: /bin/bash -c "sleep 15s && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P Essa_1998gdgre! -d master -i /setup_db.sql"
+    command: /bin/bash -c "sleep 15s && /opt/mssql-tools/bin/sqlcmd -S db -U sa -P Password123! -d master -i /setup_db.sql"
 
   advert-service:
     image: advert-service
